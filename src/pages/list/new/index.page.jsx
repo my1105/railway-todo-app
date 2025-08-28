@@ -1,20 +1,19 @@
-import React, { useCallback, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { BackButton } from '~/components/BackButton';
-import './index.css';
-import { createList, setCurrentList } from '~/store/list/index';
-import { useId } from '~/hooks/useId';
+import React, { useCallback, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { BackButton } from '~/components/BackButton'
+import './index.css'
+import { createList, setCurrentList } from '~/store/list/index'
+import { useId } from '~/hooks/useId'
 
 const NewList = () => {
-  const id = useId();
-  const history = useHistory();
-  const dispatch = useDispatch();
+  const id = useId()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  const [title, setTitle] = useState('');
-
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [title, setTitle] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const onSubmit = useCallback(
     (event) => {
@@ -24,9 +23,9 @@ const NewList = () => {
 
       void dispatch(createList({ title }))
         .unwrap()
-        .then((listId) => {
-          dispatch(setCurrentList(listId));
-          history.push(`/`);
+        .then(listId => {
+          dispatch(setCurrentList(listId))
+          navigate(`/`) 
         })
         .catch((err) => {
           setErrorMessage(err.message);
@@ -35,8 +34,8 @@ const NewList = () => {
           setIsSubmitting(false);
         });
     },
-    [title],
-  );
+    [dispatch, title, navigate] 
+  )
 
   return (
     <main className="new_list">

@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react';
-import { Redirect, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useLogin } from '~/hooks/useLogin';
-import { useId } from '~/hooks/useId';
-import './index.css';
+import React, { useCallback, useState } from 'react'
+import { Link, Navigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useLogin } from '~/hooks/useLogin'
+import { useId } from '~/hooks/useId'
+import './index.css'
 
 const SignIn = () => {
   const auth = useSelector((state) => state.auth.token !== null);
@@ -30,11 +30,11 @@ const SignIn = () => {
           setIsSubmitting(false);
         });
     },
-    [email, password],
-  );
+    [email, password, login],
+  )
 
   if (auth) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" replace /> ;
   }
 
   return (

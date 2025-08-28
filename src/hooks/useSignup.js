@@ -1,25 +1,29 @@
-import { useDispatch } from 'react-redux';
-import { useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
-import { signup } from '~/store/auth';
+import { useDispatch } from 'react-redux'
+import { useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { signup } from '~/store/auth'
 
 export const useSignup = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleSignup = useCallback(
     async ({ email, password, name }) => {
-      await dispatch(
-        signup({
-          email,
-          password,
-          name,
-        }),
-      ).unwrap();
-      history.push('/');
+      try {
+        await dispatch(
+          signup({
+            email,
+            password,
+            name,
+          }),
+        ).unwrap()
+        navigate('/')
+      } catch (err) {
+        console.error('Signup failed:', err)
+      }
     },
-    [useDispatch],
-  );
+    [dispatch, navigate], 
+  )
 
   return {
     signup: handleSignup,
