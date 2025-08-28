@@ -1,5 +1,5 @@
-import { useCallback, useState, useEffect } from 'react'
-import { Link, useHistory, useParams } from 'react-router-dom'
+import React, { useCallback, useState, useEffect } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { BackButton } from '~/components/BackButton'
 import './index.css'
@@ -8,13 +8,11 @@ import { useId } from '~/hooks/useId'
 
 const EditList = () => {
   const id = useId()
-
   const { listId } = useParams()
-  const history = useHistory()
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
-
   const [errorMessage, setErrorMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -41,7 +39,7 @@ const EditList = () => {
       void dispatch(updateList({ id: listId, title }))
         .unwrap()
         .then(() => {
-          history.push(`/lists/${listId}`)
+          navigate(`/lists/${listId}`)
         })
         .catch(err => {
           setErrorMessage(err.message)
@@ -50,20 +48,18 @@ const EditList = () => {
           setIsSubmitting(false)
         })
     },
-    [title, listId],
+    [title, listId, navigate],
   )
 
   const handleDelete = useCallback(() => {
-    if (!window.confirm('Are you sure you want to delete this list?')) {
-      return
-    }
+    if (!window.confirm('Are you sure you want to delete this list?')) return
 
     setIsSubmitting(true)
 
     void dispatch(deleteList({ id: listId }))
       .unwrap()
       .then(() => {
-        history.push(`/`)
+        navigate('/')
       })
       .catch(err => {
         setErrorMessage(err.message)
@@ -71,7 +67,7 @@ const EditList = () => {
       .finally(() => {
         setIsSubmitting(false)
       })
-  }, [])
+  }, [listId, navigate])
 
   return (
     <main className="edit_list">
