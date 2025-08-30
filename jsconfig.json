@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "target": "es2022",
-    "allowSyntheticDefaultImports": false,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
     "baseUrl": "./",
     "paths": {
       "~/*": ["src/*"]
