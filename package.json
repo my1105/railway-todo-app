@@ -19,12 +19,21 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react-swc": "^3.3.2",
+    "eslint": "^9.34.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "prettier": "^3.6.2",
     "vite": "^6.3.2"
   },
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "lint": "eslint 'src/**/*.{js,jsx}'",
+    "lint:fix": "eslint 'src/**/*.{js,jsx}' --fix",
+    "format": "prettier --write 'src/**/*.{js,jsx}'",
+    "format:check": "prettier --check 'src/**/*.{js,jsx}'"  
   },
   "browserslist": {
     "production": [
